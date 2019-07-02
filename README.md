@@ -97,13 +97,13 @@ Further documentation can be found at https://adapt.mycroft.ai
 
 
 Adapt Intent Parser
-==================
+===================
 Adapt Intent Parser - это гибкий и расширяемый фреймворк для распознавания и определения намерений пользователя. Он предназначен для парсинга текста на естественном языке в специальную структуру намерения, которую затем можно вызывать программно.
 
 [![Встречайте Adapt Intent Parser](https://mycroft.ai/wp-content/uploads/2019/05/Adapt-video-still.png)](https://www.youtube.com/watch?v=zR9xvPtM6Ro)
 
 Начало работы
-===============
+=============
 Чтобы работать с Adapt, рекомендуется использовать virtualenv и pip для установки исходного кода из github.
 
 ```bash
@@ -113,7 +113,7 @@ $ pip install -e git+https://github.com/mycroftai/adapt#egg=adapt-parser
 ```
 
 Примеры
-========
+=======
 Исполняемые примеры можно найти в папке [examples] (https://github.com/MycroftAI/adapt/tree/master/examples).
 
 Моделирование намерений
@@ -155,7 +155,7 @@ play_music_command = IntentBuilder('pandora:select_station')\
 ```Python
 def register_vocab(entity_type, entity_value):
     pass
-    # a tiny bit of code 
+    #Чуть-чуть кода
 
 def register_pandora_vocab(emitter):
     for v in ["stations"]:
@@ -180,8 +180,8 @@ def register_pandora_vocab(emitter):
             register_vocab('Pandora Station', match)
 ```
 
-Узнать больше
-========
+Подробнее
+=========
 
 Дополнительную документацию можно найти по адресу https://adapt.mycroft.ai.
 
