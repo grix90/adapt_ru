@@ -146,7 +146,7 @@ play_music_command = IntentBuilder('pandora:select_station')\
 
 Сущности являются именованными значениеми. Пример:
 `Blink 182` - это `Артист`
-`Теория большого взрыва` - `Телевизионное шоу`
+`The Big Bang Theory` is a `Television Show`
 `Play` - это` Listen Command`
 `Song (s)` - это `Music Keyword`
 
