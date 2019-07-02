@@ -93,89 +93,91 @@ Further documentation can be found at https://adapt.mycroft.ai
 
 
 
-Адаптировать Intent Parser
+Adapt Intent Parser
 ==================
-Adapt Intent Parser - это гибкая и расширяемая структура определения и определения намерений. Он предназначен для анализа текста на естественном языке в структурированном намерении, которое затем можно вызывать программно.
+Adapt Intent Parser - это гибкий и расширяемый фреймворк для распознавания и определения намерений пользователя. Он предназначен для парсинга текста на естественном языке в специальную структуру намерения, которую затем можно вызывать программно.
 
-[! [Представляем Adapter Intent Parser] (https://mycroft.ai/wp-content/uploads/2019/05/Adapt-video-still.png)] (https://www.youtube.com/watch? v = zR9xvPtM6Ro)
+[![Встречайте Adapt Intent Parser](https://mycroft.ai/wp-content/uploads/2019/05/Adapt-video-still.png)](https://www.youtube.com/watch?v=zR9xvPtM6Ro)
 
-Начиная
+Начало работы
 ===============
-Чтобы получить зависимость от Adapt, рекомендуется использовать virtualenv и pip для установки исходного кода из github.
+Чтобы работать с Adapt, рекомендуется использовать virtualenv и pip для установки исходного кода из github.
 
-`` `Баш
+```bash
 $ virtualenv myvirtualenv
-$. myvirtualenv / бен / активировать
-$ pip install -e git + https: //github.com/mycroftai/adapt#egg=adapt-parser
-`` `
+$ . myvirtualenv/bin/activate
+$ pip install -e git+https://github.com/mycroftai/adapt#egg=adapt-parser
+```
 
 Примеры
 ========
 Исполняемые примеры можно найти в папке [examples] (https://github.com/MycroftAI/adapt/tree/master/examples).
 
-Намерение Моделирование
+Моделирование Намерений
 ================
-В этом контексте Intent - это действие, которое должна выполнить система. В контексте Pandora мы определили два действия: Список станций и Выбор станции (или начало воспроизведения)
+В этом контексте Намерение - это действие, которое должна выполнить система. В контексте Pandora мы определили два действия: Список станций (List Stations) и Выбор станции (Station Select или начало воспроизведения)
 
-С помощью адаптера намерений:
-`` `Python
-list_stations_intent = IntentBuilder ('pandora: list_stations') \
-    .require ('Команда просмотра музыки') \
-    .build ()
-`` `
+С помощью Adapt intent builder:
 
-Для вышеизложенного мы описываем намерение «List Stations», в котором есть единственное требование к сущности «Browse Music Command».
+```Python
+list_stations_intent = IntentBuilder('pandora:list_stations')\
+    .require('Browse Music Command')\
+    .build()
+```
 
-`` `Python
-play_music_command = IntentBuilder ('pandora: select_station') \
-    .require («Слушать команду») \
-    .require («Станция Пандора») \
-    .optionally ('Музыкальное ключевое слово') \
-    .build ()
-`` `
+Для вышеизложенного мы описываем намерение «Список станций» («List Stations»), в котором есть единственное требование к сущности «Browse Music Command».
+
+```Python
+play_music_command = IntentBuilder('pandora:select_station')\
+    .require('Listen Command')\
+    .require('Pandora Station')\
+    .optionally('Music Keyword')\
+    .build()
+```
 
 
-Для вышеизложенного мы описываем намерение «Выбрать станцию» (он же начало воспроизведения), для которого требуется объект «Команда прослушивания», «Станция Пандора» и, необязательно, объект «Музыкальное ключевое слово».
+Для вышеизложенного мы описываем намерение «Выбор станции» (Station Select, он же начало воспроизведения), для которого требуется объект «Команда прослушивания», «Станция Пандора» и, необязательно, объект «Музыкальное ключевое слово».
 
-юридические лица
+Сущности
 ========
 
-Объекты являются именованным значением. Примеры включают в себя:
-«Blink 182» - это «Художник»
-«Теория большого взрыва» - «Телевизионное шоу»
-`Play` - это` Слушай команду`
-`Song (s)` - это ключевое слово Music
+Сущности являются именованными значениеми. Пример:
+`Blink 182` - это `Артист`
+`Теория большого взрыва` - `Телевизионное шоу`
+`Play` - это` Listen Command`
+`Song (s)` - это `Music Keyword`
 
-Для моей реализации Pandora есть статический набор слов для команд «Просмотр музыки», «Слушать команда» и «Ключевое слово музыки» (определено мной, носителем английского языка и отличным парнем). Объекты станции Пандоры заполняются посредством вызова API «Станции списка» для Пандоры. Вот как выглядит регистрация словаря.
+Для реализации Pandora есть статический набор слов для команд «Просмотр музыки», «Слушать команда» и «Ключевое слово музыки» (определено автором, носителем английского языка и отличным парнем). Объекты станции Пандоры заполняются посредством вызова API «Станции списка» для Пандоры. Вот как выглядит регистрация словаря.
 
-`` `Python
-def register_vocab (entity_type, entity_value):
-    проходить
-    # чуть-чуть кода
+```Python
+def register_vocab(entity_type, entity_value):
+    pass
+    # a tiny bit of code 
 
-def register_pandora_vocab (эмиттер):
-    для v в ["станции"]:
-        register_vocab ('Команда просмотра музыки', v)
+def register_pandora_vocab(emitter):
+    for v in ["stations"]:
+        register_vocab('Browse Music Command', v)
 
-    для v в ["play", "listen", "listen"]:
-        register_vocab ('Команда прослушивания', v)
+    for v in ["play", "listen", "hear"]:
+        register_vocab('Listen Command', v)
 
-    для v в ["музыка", "радио"]:
-        register_vocab ('Музыкальное ключевое слово', v)
+    for v in ["music", "radio"]:
+        register_vocab('Music Keyword', v)
 
-    для V в ["Пандора"]:
-        register_vocab ('Имя плагина', v)
+    for v in ["Pandora"]:
+        register_vocab('Plugin Name', v)
 
-    station_name_regex = re.compile (r "(. *) Radio")
-    p = get_pandora ()
-    для станции в п.станциях:
-        m = имя_постановки_regex.match (station.get ('имя_поста'))
-        если не м:
-            Продолжить
-        для совпадения в m.groups ():
-            register_vocab ('Станция Пандора', соответствует)
-`` `
-Учить больше
+    station_name_regex = re.compile(r"(.*) Radio")
+    p = get_pandora()
+    for station in p.stations:
+        m = station_name_regex.match(station.get('stationName'))
+        if not m:
+            continue
+        for match in m.groups():
+            register_vocab('Pandora Station', match)
+```
+
+Узнать больше
 ========
 
 Дополнительную документацию можно найти по адресу https://adapt.mycroft.ai.
