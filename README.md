@@ -92,6 +92,9 @@ Learn More
 Further documentation can be found at https://adapt.mycroft.ai
 
 
+-----------------------------------------------------------------------------------
+
+
 
 Adapt Intent Parser
 ==================
